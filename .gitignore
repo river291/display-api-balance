@@ -3,3 +3,5 @@ node_modules/
 .plugin-market-cache/
 .DS_Store
 *.log
+market/submit.log
+market/submit-status.json
