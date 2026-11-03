@@ -1,51 +1,85 @@
 # display-api-balance
 
-在 DeepSeek Harness 输入框下方的统计行里显示 **DeepSeek API 余额**，每 60 秒自动刷新；点击余额可设置本地低余额阈值，低于阈值时金额变红。
+English | [中文](README.zh.md)
 
-## 功能
+Shows the **DeepSeek API balance** as an ambient stat under the DeepSeek Harness
+composer and refreshes it every 60 seconds. Click the balance to set a local
+low-balance threshold; the amount turns red once it reaches the threshold.
 
-- 余额显示在输入框下方的统计行（"轮次 · tok/s"、"上下文用量"之后），与 DSH 自带统计同一套字号 / 颜色 / 图标风格，不额外占一块悬浮层。
-- 每 60 秒自动刷新；切回窗口或标签页时立即刷新一次。
-- 点击余额弹出小面板设置低余额阈值（默认 ¥20），低于或等于阈值时金额变红并加粗；留空关闭提醒。
-- 阈值保存在本机浏览器 `localStorage`（`display-api-balance:threshold`），不随插件上传，也不经过网络。
-- 未配置 `DEEPSEEK_API_KEY` / 接口失败 / 未登录时给出对应提示，不会显示错误数字。
-- 兼容深浅色主题：颜色全部取 DSH 的 `--dsw-alias-*` 语义变量。
+## Features
 
-## 安装
+- Renders in the composer's stat row below the input, after the shipped
+  "turns · steps · tok/s" and token-usage stats, sharing their font size, color
+  and icon style — no separate floating layer.
+- Refreshes every 60 seconds; also refreshes immediately when the window or tab
+  regains focus.
+- Click the balance to open a small panel and set a low-balance threshold
+  (default ¥20). At or below it the amount turns red and bold; leave the field
+  empty to disable the alert.
+- The threshold is a local preference stored in the browser
+  `localStorage` (`display-api-balance:threshold`); it is never uploaded or sent
+  over the network.
+- Clear states for a missing `DEEPSEEK_API_KEY`, a failed request, or a
+  signed-out account — no wrong number is displayed.
+- Theme aware: every color comes from DSH's `--dsw-alias-*` semantic tokens.
 
-DSH 插件通过 profile 安装。在桌面版插件页或 CLI 执行：
+## Install
+
+DSH bundles are installed into a profile. From the desktop Plugins page or the
+CLI:
 
 ```sh
-# 从 GitHub 安装（源码即产物，无构建步骤，不需要 allowBuilds 授权）
+# From GitHub (source is the artifact: no build step, no allowBuilds approval)
 dsh plugin --profile <profile> add github:river291/display-api-balance
 ```
 
-安装后在插件页确认 `display-api-balance` 已启用。
+Then confirm `display-api-balance` is enabled on the Plugins page.
 
-npm 上 `display-api-balance` 这个名称目前没有被占用，如果你想用 npm 安装，可以先发布：
+The npm name `display-api-balance` is currently free. To install from npm,
+publish it first:
 
 ```sh
 npm publish --access public
 ```
 
-之后用户就可以 `dsh plugin add display-api-balance`（已发布包的 `package.json` 里 `repository` 已指回本仓库，市场会据此关联 npm 数据）。
+After that, `dsh plugin add display-api-balance` works as well. The published
+package's `repository` field points back at this repository, so marketplaces can
+map npm data to it.
 
-## 前置条件
+## Requirements
 
-- 本机 Host 的凭据服务能解析 `DEEPSEEK_API_KEY`：在 DSH 设置 → 模型里填入 DeepSeek API Key，或在启动 DSH 的环境里导出该变量。
-- DSH 版本：在 `0.2.1-rc.5`（桌面版）上开发与验证；Host 侧只用到 `webServer`、`credentials`，客户端只用到 `slots`、`locale`。
+- The host's credential service must resolve `DEEPSEEK_API_KEY`: fill in a
+  DeepSeek API key under DSH Settings → Models, or export the variable in the
+  environment that launches DSH.
+- DSH version: developed and verified on `0.2.1-rc.5` (desktop). The host half
+  only uses `webServer` and `credentials`; the client half only uses `slots` and
+  `locale`.
 
-## 工作方式
+## How it works
 
-- **Host 半端**（`index.js`）注册 `GET /api/balance`：每次请求重新解析凭据 `DEEPSEEK_API_KEY`（轮换 Key 无需重启），带 `Authorization: Bearer` 调用 `https://api.deepseek.com/user/balance`，15 秒超时，返回上游 JSON。Key 只留在 Host 进程内，不会下发到浏览器。
-- **Client 半端**（`client.js`）把余额作为一条文字统计注册到 `conversation.composer.dock` 插槽（`order: 2`，位于上下文占用之后）。页面里的相对路径 `fetch('/api/balance')` 在桌面版经 `dsh-app://` 协议转发到上面的 Host 路由，在 Web 版就是同源请求。
-- 明文 HTTP 的 Web 部署请自行注意：`/api/balance` 与 DSH 的其他 Host 路由一样，只建议绑定在回环地址上使用。
+- **Host half** (`index.js`) registers `GET /api/balance`. Each request
+  re-resolves the `DEEPSEEK_API_KEY` credential (rotating the key needs no
+  restart), calls `https://api.deepseek.com/user/balance` with
+  `Authorization: Bearer`, applies a 15-second timeout, and returns the upstream
+  JSON. The key stays inside the host process and is never handed to the
+  browser.
+- **Client half** (`client.js`) registers the balance as one text stat in the
+  `conversation.composer.dock` slot (`order: 2`, after the context-occupancy
+  meter). A relative `fetch('/api/balance')` reaches the host route above
+  through the `dsh-app://` protocol in the desktop app, and as a same-origin
+  request in the web build.
+- For plain-HTTP web deployments: like any other host route, `/api/balance` is
+  meant to be bound to the loopback address only.
 
-## 与 DSH Web 版旧方案的区别
+## Difference from the old web approach
 
-Web 版用的是 `webServer.tapIndex` 往 `index.html` 注入 DOM 脚本。桌面版（Electron）的窗口从打包好的 `dsh-web-frontend/dist` 加载页面，不经过 Host 的 `renderIndex`，注入脚本不会执行；因此本插件改为在 Client 插槽里用 React 渲染，桌面版与 Web 版都能用。
+The web version used `webServer.tapIndex` to inject a DOM script into
+`index.html`. The desktop (Electron) window loads the page from the packaged
+`dsh-web-frontend/dist` and never runs the host's `renderIndex`, so injected
+scripts do not execute there. This plugin renders through a client slot with
+React instead, so both the desktop and web builds work.
 
-## 卸载
+## Uninstall
 
 ```sh
 dsh plugin --profile <profile> remove display-api-balance
