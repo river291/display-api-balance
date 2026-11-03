@@ -86,7 +86,7 @@ try {
     $who = Invoke-Npm -Arguments @('whoami', ('--registry=' + $Registry), ('--cache=' + $Cache), '--fetch-retries=0', '--fetch-timeout=30000')
     if ($who.Code -ne 0) {
         Write-Log 'npm is not logged in to the public registry'
-        Write-Status -State 'login-required' -Version $version -Message ('run: npm login --registry=' + $Registry)
+        Write-Status -State 'login-required' -Version $version -Message ('no account or no token. Create an account at https://www.npmjs.com/signup (npm disabled account creation via legacy auth; a phone hotspot usually passes the Cloudflare check), verify the email, then run: npm login --auth-type=legacy --registry=' + $Registry)
         exit 3
     }
     Write-Log ('logged in as ' + $who.Output)
