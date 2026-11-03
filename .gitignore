@@ -5,3 +5,6 @@ node_modules/
 *.log
 market/submit.log
 market/submit-status.json
+.npm-cache/
+market/publish.log
+market/publish-status.json

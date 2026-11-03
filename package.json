@@ -22,6 +22,10 @@
     "api-key",
     "usage"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
