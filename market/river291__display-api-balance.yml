@@ -1,5 +1,5 @@
-url: https://github.com/river291/dsh-api-balance
-name: river291/dsh-api-balance
+url: https://github.com/river291/display-api-balance
+name: river291/display-api-balance
 category: usage
 description:
   en: 'Shows the DeepSeek API-key balance as one ambient stat in the Harness composer row, refreshed every 60 seconds. Click the balance to set a local low-balance threshold; the amount turns red below it. The API key stays in the host and is only sent to api.deepseek.com/user/balance.'

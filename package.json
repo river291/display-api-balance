@@ -1,5 +1,5 @@
 {
-  "name": "dsh-api-balance",
+  "name": "display-api-balance",
   "version": "1.0.0",
   "description": "Shows the DeepSeek API-key balance as an ambient stat under the Harness composer and keeps it refreshed, with a local low-balance alert.",
   "type": "module",
@@ -7,11 +7,11 @@
   "author": "River <347742286@qq.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/river291/dsh-api-balance.git"
+    "url": "git+https://github.com/river291/display-api-balance.git"
   },
-  "homepage": "https://github.com/river291/dsh-api-balance#readme",
+  "homepage": "https://github.com/river291/display-api-balance#readme",
   "bugs": {
-    "url": "https://github.com/river291/dsh-api-balance/issues"
+    "url": "https://github.com/river291/display-api-balance/issues"
   },
   "keywords": [
     "deepseek",

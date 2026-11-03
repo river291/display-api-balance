@@ -1,4 +1,4 @@
-# dsh-api-balance
+# display-api-balance
 
 在 DeepSeek Harness 输入框下方的统计行里显示 **DeepSeek API 余额**，每 60 秒自动刷新；点击余额可设置本地低余额阈值，低于阈值时金额变红。
 
@@ -7,8 +7,8 @@
 - 余额显示在输入框下方的统计行（"轮次 · tok/s"、"上下文用量"之后），与 DSH 自带统计同一套字号 / 颜色 / 图标风格，不额外占一块悬浮层。
 - 每 60 秒自动刷新；切回窗口或标签页时立即刷新一次。
 - 点击余额弹出小面板设置低余额阈值（默认 ¥20），低于或等于阈值时金额变红并加粗；留空关闭提醒。
-- 阈值保存在本机浏览器 `localStorage`（`dsh-api-balance:threshold`），不随插件上传，也不经过网络。
-- 未登录 / 未配置 `DEEPSEEK_API_KEY` / 接口失败时给出对应提示，不会显示错误数字。
+- 阈值保存在本机浏览器 `localStorage`（`display-api-balance:threshold`），不随插件上传，也不经过网络。
+- 未配置 `DEEPSEEK_API_KEY` / 接口失败 / 未登录时给出对应提示，不会显示错误数字。
 - 兼容深浅色主题：颜色全部取 DSH 的 `--dsw-alias-*` 语义变量。
 
 ## 安装
@@ -17,12 +17,18 @@ DSH 插件通过 profile 安装。在桌面版插件页或 CLI 执行：
 
 ```sh
 # 从 GitHub 安装（源码即产物，无构建步骤，不需要 allowBuilds 授权）
-dsh plugin --profile <profile> add github:river291/dsh-api-balance
+dsh plugin --profile <profile> add github:river291/display-api-balance
 ```
 
-安装后在插件页确认 `dsh-api-balance` 已启用。
+安装后在插件页确认 `display-api-balance` 已启用。
 
-> npm 上已存在同名包 `dsh-api-balance`（并非本项目），所以请使用上面的 GitHub 地址安装，不要用 `dsh plugin add dsh-api-balance`。
+npm 上 `display-api-balance` 这个名称目前没有被占用，如果你想用 npm 安装，可以先发布：
+
+```sh
+npm publish --access public
+```
+
+之后用户就可以 `dsh plugin add display-api-balance`（已发布包的 `package.json` 里 `repository` 已指回本仓库，市场会据此关联 npm 数据）。
 
 ## 前置条件
 
@@ -42,7 +48,7 @@ Web 版用的是 `webServer.tapIndex` 往 `index.html` 注入 DOM 脚本。桌�
 ## 卸载
 
 ```sh
-dsh plugin --profile <profile> remove dsh-api-balance
+dsh plugin --profile <profile> remove display-api-balance
 ```
 
 ## License

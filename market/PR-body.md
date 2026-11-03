@@ -1,6 +1,6 @@
-# Add dsh-api-balance
+# Add display-api-balance
 
-This PR adds one entry for [dsh-api-balance](https://github.com/river291/dsh-api-balance).
+This PR adds one entry for [display-api-balance](https://github.com/river291/display-api-balance).
 
 ## What it does
 
@@ -18,7 +18,7 @@ low-balance threshold.
       without a build-script approval
 - [x] Repository has the `dsh-plugin` topic
 - [x] Repository is more than 1 day old
-- [x] Entry file: `data/plugins/river291__dsh-api-balance.yml`
+- [x] Entry file: `data/plugins/river291__display-api-balance.yml`
 - [x] Only this entry file is added; generated READMEs untouched
 - [x] Description is checked against the code: the balance comes from
       `GET /api/balance` on the host, which calls
@@ -28,7 +28,7 @@ low-balance threshold.
 ## How to verify locally
 
 ```sh
-dsh plugin --profile <profile> add github:river291/dsh-api-balance
+dsh plugin --profile <profile> add github:river291/display-api-balance
 ```
 
 Then open a conversation and check the stat row under the composer for

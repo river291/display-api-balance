@@ -1,12 +1,14 @@
 window.__ModuleLoader__.load({
-  id: 'dsh-api-balance',
+  id: 'display-api-balance',
   factory(require) {
     const React = require('react')
     const h = React.createElement
 
     const NS = 'api-balance'
     const POLL_MS = 60000
-    const THRESHOLD_KEY = 'dsh-api-balance:threshold'
+    const THRESHOLD_KEY = 'display-api-balance:threshold'
+    // Earlier local builds stored the value under the pre-rename id.
+    const LEGACY_THRESHOLD_KEY = 'dsh-api-balance:threshold'
     const THRESHOLD_DEFAULT = 20
 
     const zh = {
@@ -125,7 +127,7 @@ window.__ModuleLoader__.load({
     /** The alert threshold is a local preference: null means the alert is off. */
     function readThreshold() {
       try {
-        const raw = localStorage.getItem(THRESHOLD_KEY)
+        const raw = localStorage.getItem(THRESHOLD_KEY) ?? localStorage.getItem(LEGACY_THRESHOLD_KEY)
         if (raw === null) return THRESHOLD_DEFAULT
         if (raw === '') return null
         const value = Number(raw)
@@ -327,7 +329,7 @@ window.__ModuleLoader__.load({
         ctx.effect(() => {
           const tag = document.createElement('style')
           tag.dataset.plugin = 'api-balance'
-          tag.dataset.pluginCss = '@local/dsh-api-balance/styles'
+          tag.dataset.pluginCss = 'display-api-balance/styles'
           tag.textContent = CSS
           document.head.appendChild(tag)
           return () => { tag.remove() }
