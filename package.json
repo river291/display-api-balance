@@ -1,0 +1,48 @@
+{
+  "name": "dsh-api-balance",
+  "version": "1.0.0",
+  "description": "Shows the DeepSeek API-key balance as an ambient stat under the Harness composer and keeps it refreshed, with a local low-balance alert.",
+  "type": "module",
+  "license": "MIT",
+  "author": "River <347742286@qq.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/river291/dsh-api-balance.git"
+  },
+  "homepage": "https://github.com/river291/dsh-api-balance#readme",
+  "bugs": {
+    "url": "https://github.com/river291/dsh-api-balance/issues"
+  },
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "balance",
+    "api-key",
+    "usage"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  }
+}

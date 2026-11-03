@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "API Balance",
+    "description": "Shows the DeepSeek API balance in the window's bottom-right corner and refreshes it every 60 seconds."
+  }
+}
