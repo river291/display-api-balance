@@ -24,13 +24,7 @@ dsh plugin --profile <profile> add github:river291/display-api-balance
 
 安装后在插件页确认 `display-api-balance` 已启用。
 
-npm 上 `display-api-balance` 这个名称目前没有被占用，如果你想用 npm 安装，可以先发布：
-
-```sh
-npm publish --access public
-```
-
-之后用户就可以 `dsh plugin add display-api-balance`（已发布包的 `package.json` 里 `repository` 已指回本仓库，市场会据此关联 npm 数据）。
+插件目前通过 GitHub 分发，尚未发布到 npm，请使用上面的 GitHub 地址安装；以后若发布到 npm，也可以 `dsh plugin add display-api-balance`（包的 `package.json` 里 `repository` 已指回本仓库，市场会据此关联 npm 数据）。
 
 ## 前置条件
 

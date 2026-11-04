@@ -35,16 +35,11 @@ dsh plugin --profile <profile> add github:river291/display-api-balance
 
 Then confirm `display-api-balance` is enabled on the Plugins page.
 
-The npm name `display-api-balance` is currently free. To install from npm,
-publish it first:
-
-```sh
-npm publish --access public
-```
-
-After that, `dsh plugin add display-api-balance` works as well. The published
-package's `repository` field points back at this repository, so marketplaces can
-map npm data to it.
+The plugin is distributed from GitHub; there is no npm release yet, so install
+with the GitHub spec above. If it is published to npm later,
+`dsh plugin add display-api-balance` will work as well. The published package's
+`repository` field points back at this repository, so marketplaces can map npm
+data to it.
 
 ## Requirements
 
